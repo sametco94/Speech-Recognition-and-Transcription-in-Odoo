@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_client_kanban" model="ir.ui.view">
+        <field name="name">customerservice.client.kanban</field>
+        <field name="model">customerservice.client</field>
+        <field name="arch" type="xml">
+            <kanban default_order="id asc">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="note"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li>
+                                        Name: <field name="name"/>
+                                    </li>
+                                    <li>
+                                        Age: <field name="age"/>
+                                    </li>
+                                    <li>
+                                        Gender: <field name="gender"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_client_tree" model="ir.ui.view">
+        <field name="name">customerservice.client.tree</field>
+        <field name="model">customerservice.client</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="responsible_id"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="note"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_client_form" model="ir.ui.view">
+        <field name="name">customerservice.client.form</field>
+        <field name="model">customerservice.client</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="responsible_id"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="gender" invisible="context.get('hide_gender')"/>
+                            <field name="note"/>
+                            <button id="record_and_convert" name="action_record_and_convert" string="Record and Convert" class="btn-primary" type="object"/>
+                        </group>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_client_search" model="ir.ui.view">
+        <field name="name">customerservice.client.search</field>
+        <field name="model">customerservice.client</field>
+        <field name="arch" type="xml">
+            <search string="Clients">
+                <field name="name"/>
+                <field name="note"/>
+                <separator/>
+                <filter string="Male" name="male" domain="[('gender', '=', 'male')]"/>
+                <filter string="Female" name="female" domain="[('gender', '=', 'female')]"/>
+                <filter string="Others" name="other" domain="[('gender', '=', 'other')]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Gender" name="gender" context="{'group_by':'gender'}"/>
+                    <filter string="Client Name" name="client_name" context="{'group_by':'name'}"/>
+                    <filter string="Responsible" name="responsible_id" context="{'group_by':'responsible_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_customerservice_client" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">customerservice.client</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first client!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_customerservice_root"
+              name="Customer Service"
+              sequence="10"
+              web_icon="C:/odoo-15.0/custom_addons/customerservice_skywalker/static/description/customer-services_auto.jpg"/>
+
+    <menuitem id="menu_client_root"
+              name="Clients"
+              parent="menu_customerservice_root"
+              sequence="10"/>
+
+    <menuitem id="menu_client"
+              name="Clients"
+              parent="menu_client_root"
+              action="action_customerservice_client"
+              sequence="10"/>
+
+</odoo>

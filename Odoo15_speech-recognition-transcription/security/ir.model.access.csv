@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+customerservice_skywalker.access_customerservice_client,access_customerservice_client,customerservice_skywalker.model_customerservice_client,base.group_user,1,1,1,1
